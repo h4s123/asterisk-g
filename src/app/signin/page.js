@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Import from 'next/navigation' for the app directory
 import axios from 'axios';
 
 export default function SignIn() {
@@ -10,8 +12,11 @@ export default function SignIn() {
 
   const handleSignIn = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/signin', { email, password });
-      const user = response.data.user;
+      const response = await axios.post('http://localhost:5000/api/auth/signin', { email, password });
+
+      // Save the token in localStorage
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
 
       // Redirect based on user role
       if (user.role === 'admin') {

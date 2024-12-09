@@ -1,28 +1,31 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [key, setKey] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [key, setKey] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSignUp = async () => {
     try {
-      const ip_address = await (await axios.get('https://api.ipify.org?format=json')).data.ip;
-      await axios.post('http://localhost:5000/api/users/signup', {
+      // const ip_address = await (
+      //   await axios.get("https://api.ipify.org?format=json")
+      // ).data.ip;
+      await axios.post("http://localhost:5000/api/auth/signup", {
         name,
         email,
         password,
         key,
-        ip_address,
+        // ip_address,
       });
-      router.push('/signin');
+      router.push("/signin");
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed');
+      setError(err.response?.data?.message || "Signup failed");
     }
   };
 

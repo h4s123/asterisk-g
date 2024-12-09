@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.0",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
