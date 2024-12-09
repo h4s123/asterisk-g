@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -5,8 +6,19 @@ export default function AdminPage() {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
-    const response = await axios.get('http://localhost:5000/api/admin/users');
-    setUsers(response.data);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Token not found in localStorage');
+  
+      const response = await axios.get('http://localhost:5000/api/admin/users', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add Authorization header
+        },
+      });
+      setUsers(response.data);
+    } catch (err) {
+      console.error('Error fetching users:', err);
+    }
   };
 
   useEffect(() => {
