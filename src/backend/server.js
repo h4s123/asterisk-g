@@ -5,6 +5,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const trunkRoutes = require('./routes/trunkRoutes');
 
+require('./ari/ari-connection')
 require('dotenv').config();
 
 const app = express();
