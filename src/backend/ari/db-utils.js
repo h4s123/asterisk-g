@@ -1,6 +1,7 @@
 // db-utils.js
 
-const pool = require("../db/connection");
+// const pool = require("../db/connection");
+const pool = require("../config/db")
 
 async function saveCallStatusToDatabase(phoneNumber, status) {
   try {

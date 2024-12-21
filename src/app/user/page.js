@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import CallFeatureComponent from '@/components/CallFeatureComponent';
 
 export default function UserPage() {
   const [user, setUser] = useState(null);
@@ -48,6 +49,9 @@ export default function UserPage() {
         <p className="mb-4">
           <strong>Trunks:</strong> {user?.user?.trunks.join(', ')}
         </p>
+      </div>
+      <div>
+        <CallFeatureComponent />
       </div>
     </div>
   );
