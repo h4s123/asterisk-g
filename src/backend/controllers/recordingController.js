@@ -43,7 +43,7 @@ const textToSpeech = async (req, res) => {
       fs.mkdirSync(recordingsDir, { recursive: true });
     }
 
-    const filePath = path.join(recordingsDir, `speech_${Date.now()}.mp3`);
+    const filePath = path.join(recordingsDir, `speech_${Date.now()}.ulaw`);
     const gttsInstance = new gtts(text, "en");
 
     gttsInstance.save(filePath, (err) => {
@@ -104,7 +104,7 @@ const startCalls = async (req, res) => {
     const recordingDir = path.join(__dirname, "../recordings");
     const files = fs.readdirSync(recordingDir);
     const recordingFile = files.find(
-      (file) => file.endsWith(".mp3") || file.endsWith(".wav")
+      (file) => file.endsWith(".ulaw") || file.endsWith(".wav")
     );
 
     if (!recordingFile) {
@@ -117,13 +117,25 @@ const startCalls = async (req, res) => {
     // Place calls sequentially
     for (const number of global.callNumbers) {
       try {
-        console.log(`Placing call to ${number}...`);
+        console.log(`Placing call to ${number} using trunk ${trunk}...`);
+        console.log(`Recording Path: ${recordingPath}`);
 
         // Initiate call using ARI
+        // await ari.channels.originate({
+        //   endpoint: `SIP/${trunk}/${number}`,
+        //   app: "my-ari-app", // Ensure this matches your ARI app
+        //     appArgs: recordingPath, // Path to the recording file
+        // });
+
         await ari.channels.originate({
           endpoint: `SIP/${trunk}/${number}`,
-          app: "my-ari-app", // Ensure this matches your ARI app
-            appArgs: recordingPath, // Path to the recording file
+          app: "my-ari-app",
+          appArgs: recordingPath, // Pass the recording file path
+          callerId: "YourCallerID", // Optional: Set a caller ID
+          timeout: 30, // Optional: Timeout in seconds
+          variables: {
+            RECORDING_PATH: recordingPath, // Pass as a variable for better handling
+          },
         });
 
         console.log(`Call to ${number} initiated successfully.`);
