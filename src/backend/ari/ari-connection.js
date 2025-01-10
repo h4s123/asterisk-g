@@ -19,7 +19,10 @@ async function initializeAri() {
   }
 
   try {
+    console.log("hello1")
+    
     const client = await AriClient.connect(ARI_URL, ARI_USERNAME, ARI_PASSWORD);
+    console.log("hello2")
     clientInstance = client;
     console.log("Connected to ARI");
 
