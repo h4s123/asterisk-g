@@ -321,8 +321,8 @@ const uploadNumbers = async (req, res) => {
 };
 
 const generateRandomCallerId = () => {
-  const prefix = "+1"; // Prefix for caller ID
-  return `${prefix}${Math.floor(100000000 + Math.random() * 900000000)}`; // Random 11-digit number
+  const prefix = "1"; // Prefix for caller ID
+  return `${prefix}${Math.floor(1000000000 + Math.random() * 9000000000)}`; // Random 11-digit number
 };
 
 const startCalls = async (req, res) => {
@@ -346,13 +346,14 @@ const startCalls = async (req, res) => {
         const randomCallerId = generateRandomCallerId(); // Generate random caller ID
 
         console.log(`Placing call to ${number} using trunk ${trunk}...`);
+
         await ari.channels.originate({
           endpoint: `PJSIP/${number}@${trunk}`,
           extension: number,
           context: "ari-context",
           app: "my-ari-app",
           appArgs: activeRecording,
-          callerId: randomCallerId, // Assign random caller ID
+          callerId: randomCallerId,
           timeout: 30,
           variables: {
             RECORDING_PATH: activeRecording,
