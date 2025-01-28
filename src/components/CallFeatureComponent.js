@@ -124,7 +124,8 @@ const CallFeatureComponent = () => {
         <label className="block mb-2 font-medium">Upload Recording:</label>
         <input
           type="file"
-          accept="audio/*"
+          // accept="audio/*"
+          accept=".ulaw,.alaw,.wav"
           onChange={(e) => handleFileUpload(e, "recording")}
           disabled={!!textToSpeech}
         />

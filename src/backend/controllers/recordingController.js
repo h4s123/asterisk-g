@@ -1,4 +1,3 @@
-
 // recordingController.js
 const fs = require("fs");
 const path = require("path");
@@ -6,6 +5,19 @@ const util = require("util");
 const { initializeAri } = require("../ari/ari-connection");
 const unlinkFile = util.promisify(fs.unlink);
 const gtts = require("gtts");
+
+const Client = require("ssh2-sftp-client");
+
+//to convert the file to ulaw
+const convertToUlaw = async (filePath) => {
+  const ulawPath = filePath.replace(/\.\w+$/, ".ulaw");
+  return new Promise((resolve, reject) => {
+    exec(`sox ${filePath} -r 8000 -c 1 ${ulawPath}`, (error) => {
+      if (error) reject(error);
+      else resolve(ulawPath);
+    });
+  });
+};
 
 // Shared session state
 let activeRecording = null;
@@ -21,6 +33,8 @@ const uploadRecording = async (req, res) => {
           "An active recording is already in use. Please clear it first.",
       });
     }
+
+    // file = convertToUlaw(file);
 
     const recordingsDir = path.join(__dirname, "../recordings");
     if (!fs.existsSync(recordingsDir)) {
@@ -165,6 +179,11 @@ const startCalls = async (req, res) => {
     console.error("Error starting calls:", error);
     res.status(500).json({ message: "Failed to start calls." });
   }
-};
+};  
+
+setTimeout(() => {
+  activeRecording = null;
+}, 30000); // Clear after a safe period
+
 
 module.exports = { uploadRecording, textToSpeech, uploadNumbers, startCalls };

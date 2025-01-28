@@ -2,9 +2,6 @@ require("dotenv").config();
 const AriClient = require("ari-client");
 const { saveCallStatusToDatabase } = require("./db-utils");
 const path = require("path"); // Node.js module to handle file paths
-// const speech = require('../recordings/speech.ulaw');
-// const speech1 = require('../recordings/speech1.mp3');
-// const hello = require('../recordings/hello.wav');
 
 const helloPath = path.resolve(__dirname, "../../../public/hello.wav"); // Get the full file path
 
@@ -32,48 +29,86 @@ async function initializeAri() {
     const appName = "my-ari-app";
 
     // Start listening to Stasis events
+    // client.on("StasisStart", async (event, channel) => {
+    //   console.log(`Call received on channel: ${channel.name}`);
+    //   console.log(channel?.dialplan?.app_data, "my dialplan variables");
+
+    //   const recordingPath = channel?.dialplan?.app_data
+
+    //   if (!recordingPath) {
+    //     console.error("RECORDING_PATH variable is missing or undefined.");
+    //     return;
+    //   }
+
+    //   try {
+    //     // Play the recording
+    //     await client.channels.play({
+    //       channelId: channel.id,
+    //       media: `sound:${recordingPath}`,
+    //       // media: `sound:${speech}`,
+    //     });
+
+    //     console.log(`Playback started for channel: ${channel.name}`);
+    //   } catch (error) {
+    //     console.error(
+    //       `Error playing back audio on channel: ${channel.name}`,
+    //       error
+    //     );
+    //   }
+
+    //   // Hang up the call after playback
+    //   setTimeout(async () => {
+    //     try {
+    //       await client.channels.hangup({ channelId: channel.id });
+    //       console.log(`Call ended for channel: ${channel.name}`);
+    //     } catch (error) {
+    //       console.error(`Error hanging up channel: ${channel.name}`, error);
+    //     }
+    //   }, 30000); // Adjust the timeout based on the audio length
+    // });
+
+    // client.on("StasisEnd", (event, channel) => {
+    //   console.log(`Call ended on channel: ${channel.name}`);
+    // });
+
+
     client.on("StasisStart", async (event, channel) => {
-      console.log(`Call received on channel: ${channel.name}`);
-      console.log(channel?.dialplan?.app_data, "my dialplan variables");
+      console.log(`Incoming call on channel: ${channel.name}`);
 
-      const recordingPath = channel?.dialplan?.app_data
-        ? channel?.dialplan?.app_data
-        : null;
+      const playback = client.Playback();
 
-      if (!recordingPath) {
-        console.error("RECORDING_PATH variable is missing or undefined.");
-        return;
-      }
-
+      // Play the uploaded recording
       try {
-        // Play the recording
-        await client.channels.play({
-          channelId: channel.id,
-          // media: `sound:${recordingPath}`,
-          media: `sound:${speech}`,
+        await channel.answer();
+        await channel.play({
+          media: `sound:/var/lib/asterisk/sounds/uploads/hello.wav`,
+          playbackId: playback.id,
         });
-
-        console.log(`Playback started for channel: ${channel.name}`);
+        console.log("Playing recording.");
       } catch (error) {
-        console.error(
-          `Error playing back audio on channel: ${channel.name}`,
-          error
-        );
+        console.error("Error playing the recording:", error);
       }
 
-      // Hang up the call after playback
-      setTimeout(async () => {
-        try {
-          await client.channels.hangup({ channelId: channel.id });
-          console.log(`Call ended for channel: ${channel.name}`);
-        } catch (error) {
-          console.error(`Error hanging up channel: ${channel.name}`, error);
-        }
-      }, 30000); // Adjust the timeout based on the audio length
+      playback.on("PlaybackFinished", async () => {
+        console.log("Playback finished, hanging up.");
+        await channel.hangup();
+      });
     });
 
-    client.on("StasisEnd", (event, channel) => {
-      console.log(`Call ended on channel: ${channel.name}`);
+
+    client.on("StasisEnd", async (event, channel) => {
+      const callStatus = channel?.dialplan?.app_data || "UNKNOWN";
+      const phoneNumber = channel?.caller?.number || "UNKNOWN";
+    
+      // Categorize results
+      const list = callStatus === "ANSWERED" ? "hot" : callStatus === "NO_ANSWER" ? "cold" : "steam";
+    
+      try {
+        await saveCallStatusToDatabase(phoneNumber, list);
+        console.log(`Saved ${phoneNumber} as ${list}`);
+      } catch (err) {
+        console.error("Error saving call status:", err);
+      }
     });
 
     client.start(appName);
