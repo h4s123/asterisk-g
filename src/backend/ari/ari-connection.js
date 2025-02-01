@@ -19,10 +19,7 @@ async function initializeAri() {
   }
 
   try {
-    console.log("hello1");
-
     const client = await AriClient.connect(ARI_URL, ARI_USERNAME, ARI_PASSWORD);
-    console.log("hello2");
     clientInstance = client;
     console.log("Connected to ARI");
 
@@ -71,7 +68,6 @@ async function initializeAri() {
     //   console.log(`Call ended on channel: ${channel.name}`);
     // });
 
-
     client.on("StasisStart", async (event, channel) => {
       console.log(`Incoming call on channel: ${channel.name}`);
 
@@ -81,7 +77,7 @@ async function initializeAri() {
       try {
         await channel.answer();
         await channel.play({
-          media: `sound:/var/lib/asterisk/sounds/uploads/hello.wav`,
+          media: `sound:/var/lib/asterisk/sounds/uploads/hello`,
           playbackId: playback.id,
         });
         console.log("Playing recording.");
@@ -95,14 +91,18 @@ async function initializeAri() {
       });
     });
 
-
     client.on("StasisEnd", async (event, channel) => {
       const callStatus = channel?.dialplan?.app_data || "UNKNOWN";
       const phoneNumber = channel?.caller?.number || "UNKNOWN";
-    
+
       // Categorize results
-      const list = callStatus === "ANSWERED" ? "hot" : callStatus === "NO_ANSWER" ? "cold" : "steam";
-    
+      const list =
+        callStatus === "ANSWERED"
+          ? "hot"
+          : callStatus === "NO_ANSWER"
+          ? "cold"
+          : "steam";
+
       try {
         await saveCallStatusToDatabase(phoneNumber, list);
         console.log(`Saved ${phoneNumber} as ${list}`);
