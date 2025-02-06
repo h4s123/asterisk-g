@@ -1,0 +1,25 @@
+
+  
+  
+
+  /* Button.module.css */
+.button {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  background-color: rgb(69, 69, 100); /* bg-green-500 */
+  border-radius: 0.375rem; /* rounded */
+  margin-right: 0.5rem; /* mr-2 */
+  color: white;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #059669; /* Darker green on hover */
+}
+
+.button:disabled {
+  background-color: #9ca3af; /* Gray */
+  cursor: not-allowed;
+}

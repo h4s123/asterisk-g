@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import style from './Newuse.module.css';
 
 const CallFeatureComponent = () => {
   const [recordingFile, setRecordingFile] = useState(null);
@@ -45,23 +46,29 @@ const CallFeatureComponent = () => {
       toast.error("Please enter text to convert to speech.");
       return;
     }
-
+  
     try {
       setLoading(true);
+      console.log("Sending text to backend for TTS conversion...");
+  
       const response = await axios.post(
-        `${
-          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
-        }/recordings/text-to-speech`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"}/recordings/text-to-speech`,
         { text: textToSpeech }
       );
+  
+      console.log("TTS conversion successful:", response.data);
+  
       toast.success(response.data.message);
       resetOtherInputs("text-to-speech");
     } catch (error) {
+      console.error("Error in TTS conversion:", error);
       toast.error("Failed to convert text to speech.");
     } finally {
       setLoading(false);
     }
   };
+  
+
 
   const handleUpload = async (type) => {
     const file = type === "recording" ? recordingFile : numberFile;
@@ -131,7 +138,7 @@ const CallFeatureComponent = () => {
         />
         <button
           onClick={() => handleUpload("recording")}
-          className="ml-4 px-2 py-1 bg-blue-500 text-white rounded"
+          className={style.button}
           disabled={loading}
         >
           Upload
@@ -153,10 +160,10 @@ const CallFeatureComponent = () => {
         />
         <button
           onClick={handleTextToSpeech}
-          className="mt-2 px-2 py-1 bg-green-500 text-white rounded"
+          className={style.button}
           disabled={loading}
         >
-          Convert
+          Convert Text to Speech
         </button>
       </div>
 
@@ -167,16 +174,20 @@ const CallFeatureComponent = () => {
           accept=".txt"
           onChange={(e) => handleFileUpload(e, "numbers")}
         />
+         <span className={style.change}>
         <button
           onClick={() => handleUpload("numbers")}
-          className="ml-4 px-2 py-1 bg-blue-500 text-white rounded"
+          className={style.button}
           disabled={loading}
         >
-          Upload
+          Upload numbers
         </button>
+        </span>
       </div>
 
-      <div className="mt-4">
+      <span className={style.change}>
+
+      {/* <div className="mt-4"> */}
         <button
           onClick={handleStartCalls}
           className="px-4 py-2 bg-red-500 text-white rounded"
@@ -184,7 +195,8 @@ const CallFeatureComponent = () => {
         >
           Start Calls
         </button>
-      </div>
+        </span>
+      {/* </div> */}
     </div>
   );
 };

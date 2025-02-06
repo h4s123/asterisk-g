@@ -1,0 +1,29 @@
+.cover{
+    background-image: url(/imag/com.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+}
+.box{
+    background-image: url(/imag/pagee.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border:1px solid rgb(87, 61, 87);
+    border-radius: 50px;
+    width:100%;
+    height: 90vh;
+    box-shadow: 20px 30px 20px rgba(0, 0, 0, 0.5); /* Shadow effect */
+      transition: box-shadow 0.5s ease; /* Smooth transition on hover */
+}
+
+.admin{
+    text-align: center;
+    font-size: 50px;
+    font-weight: 30px;
+    
+}
+.show{
+    width:100%;
+    height: 100%;
+    color: purple;
+}

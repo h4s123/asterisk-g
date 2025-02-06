@@ -3,7 +3,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
-const trunkRoutes = require("./routes/trunkRoutes");
+// const trunkRoutes = require("./routes/trunkRoutes");
 const recordingRoutes = require("./routes/recordingRoutes"); // Import recording routes
 
 require("./ari/ari-connection");
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/trunks", trunkRoutes);
+// app.use("/api/trunks", trunkRoutes);
 app.use("/api/recordings", recordingRoutes); // Add recording routes
 
 // Handle errors for invalid file combinations

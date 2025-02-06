@@ -1,0 +1,49 @@
+.hover-effect {
+    text-decoration:none; 
+    color: darkskyblue;
+    font-weight: bold; 
+    font-style: normal; 
+    transition: color 0.5s ease, text-decoration 0.5s ease; 
+  }
+  
+  .hover-effect:hover {
+    color: orange; 
+    text-decoration: none; 
+    font-style: italic; 
+  }
+
+  .nav{
+    background-color: rgb(134, 105, 134);
+    width:100%;
+    height: 70px;
+   color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .hover-effect {
+    color: cornflowerblue; /* Change color for mobile */
+    font-size: 0.9rem; /* Smaller font size */
+  }
+
+  .nav {
+    flex-direction: column; /* Stack items vertically */
+    height: auto; /* Adjust height dynamically */
+    padding: 0.5rem; /* Reduce padding */
+  }
+}
+/* Laptop (min-width: 769px and max-width: 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hover-effect {
+    font-size: 1.1rem; /* Slightly larger font size */
+    color: darkcyan; /* Use different hover color */
+  }
+
+  .nav {
+    height: 60px; /* Slightly smaller height */
+    padding: 0.8rem; /* Adjust padding for laptop */
+  }
+}

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import style from "./Sigup.module.css";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -30,44 +31,89 @@ export default function SignUp() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-6 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        <input
-          type="text"
-          placeholder="Key (for admin role)"
-          value={key}
-          onChange={(e) => setKey(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        <button
-          className="w-full px-4 py-2 bg-green-500 text-white rounded"
-          onClick={handleSignUp}
-        >
-          Sign Up
-        </button>
+    // <div className="h-screen flex items-center justify-center bg-gray-100">
+    //   <div className="w-full max-w-md bg-white p-6 rounded shadow-md">
+    //     <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
+    //     {error && <p className="text-red-500 mb-4">{error}</p>}
+    //     <input
+    //       type="text"
+    //       placeholder="Name"
+    //       value={name}
+    //       onChange={(e) => setName(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     <input
+    //       type="email"
+    //       placeholder="Email"
+    //       value={email}
+    //       onChange={(e) => setEmail(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     <input
+    //       type="password"
+    //       placeholder="Password"
+    //       value={password}
+    //       onChange={(e) => setPassword(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     <input
+    //       type="text"
+    //       placeholder="Key (for admin role)"
+    //       value={key}
+    //       onChange={(e) => setKey(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     <button
+    //       className="w-full px-4 py-2 bg-green-500 text-white rounded"
+    //       onClick={handleSignUp}
+    //     >
+    //       Sign Up
+    //     </button>
+    //   </div>
+    // </div>
+
+    <div className={style.background}>
+      <div className="h-screen flex items-center justify-center">
+        <div className={style.back}>
+          <div className="w-full max-w-md  p-6 rounded shadow-md">
+            <h1 className="text-4xl  mb-6">Sign Up</h1>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4"
+            />
+            <input
+              type="text"
+              placeholder="Key (for admin role)"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4"
+            />
+            <button
+              className="w-full px-4 py-2 bg-purple-500 text-white rounded"
+              onClick={handleSignUp}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

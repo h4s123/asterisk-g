@@ -1,7 +1,7 @@
-const express = require('express');
-const { getAvailableTrunks } = require('../controllers/trunkController');
-const router = express.Router();
+// const express = require('express');
+// const { getAvailableTrunks } = require('../controllers/trunkController');
+// const router = express.Router();
 
-router.get('/', getAvailableTrunks);
+// router.get('/', getAvailableTrunks);
 
-module.exports = router;
+// module.exports = router;

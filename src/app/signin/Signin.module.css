@@ -1,0 +1,36 @@
+.background {
+    background-image: url('/Imag/light.jpg');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    width: 100vw; 
+    height: 100vh; 
+    }
+  .back{
+   background-image: url('/Imag/bgpurple.jpg');
+   background-size: cover;
+   background-position: center; 
+   background-repeat: no-repeat; 
+   }
+   /* styles.css */
+.signbutton {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: purple; /* Purple background */
+  color: white;
+  border-radius: 0.25rem; /* Rounded corners */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.signbutton:hover {
+  background-color: rgb(46, 37, 46); /* Darker purple on hover */
+}
+
+.bg{
+ background-color: rgb(204, 174, 204);
+  background-repeat: no-repeat;
+}
+
+

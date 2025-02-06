@@ -25,59 +25,24 @@ async function initializeAri() {
 
     const appName = "my-ari-app";
 
-    // Start listening to Stasis events
-    // client.on("StasisStart", async (event, channel) => {
-    //   console.log(`Call received on channel: ${channel.name}`);
-    //   console.log(channel?.dialplan?.app_data, "my dialplan variables");
-
-    //   const recordingPath = channel?.dialplan?.app_data
-
-    //   if (!recordingPath) {
-    //     console.error("RECORDING_PATH variable is missing or undefined.");
-    //     return;
-    //   }
-
-    //   try {
-    //     // Play the recording
-    //     await client.channels.play({
-    //       channelId: channel.id,
-    //       media: `sound:${recordingPath}`,
-    //       // media: `sound:${speech}`,
-    //     });
-
-    //     console.log(`Playback started for channel: ${channel.name}`);
-    //   } catch (error) {
-    //     console.error(
-    //       `Error playing back audio on channel: ${channel.name}`,
-    //       error
-    //     );
-    //   }
-
-    //   // Hang up the call after playback
-    //   setTimeout(async () => {
-    //     try {
-    //       await client.channels.hangup({ channelId: channel.id });
-    //       console.log(`Call ended for channel: ${channel.name}`);
-    //     } catch (error) {
-    //       console.error(`Error hanging up channel: ${channel.name}`, error);
-    //     }
-    //   }, 30000); // Adjust the timeout based on the audio length
-    // });
-
-    // client.on("StasisEnd", (event, channel) => {
-    //   console.log(`Call ended on channel: ${channel.name}`);
-    // });
-
     client.on("StasisStart", async (event, channel) => {
       console.log(`Incoming call on channel: ${channel.name}`);
 
       const playback = client.Playback();
+      const recordingFile = event.args[0]; // Get the recording file from appArgs
+
+      if (!recordingFile) {
+        console.error("No recording file found in appArgs. Hanging up.");
+        await channel.hangup();
+        return;
+      }
 
       // Play the uploaded recording
       try {
         await channel.answer();
         await channel.play({
-          media: `sound:/var/lib/asterisk/sounds/uploads/hello`,
+          // media: `sound:/var/lib/asterisk/sounds/uploads/hello`,
+          media: `sound:/var/lib/asterisk/sounds/uploads/${recordingFile.replace('.ul', '')}`, // Remove .ul extension if needed
           playbackId: playback.id,
         });
         console.log("Playing recording.");

@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/users', getAllUsers);
 router.put('/update-balance', updateUserBalance);
-router.put('/allocate-trunks', allocateTrunks);
+// router.put('/allocate-trunks', allocateTrunks);
 router.put('/freeze-user', freezeUser);
 
 module.exports = router;

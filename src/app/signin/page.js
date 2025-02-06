@@ -6,6 +6,7 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import style from "./Signin.module.css";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -43,33 +44,66 @@ export default function SignIn() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <ToastContainer />
-      <div className="w-full max-w-md bg-white p-6 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-6">Sign In</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-4"
-        />
-        {isLoading ? <ClipLoader color="blue" /> : (
-        <button
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={handleSignIn}
-        >
-          Sign In
-        </button>
-        )}
+    // <div className="h-screen flex items-center justify-center bg-gray-100">
+    //   <ToastContainer />
+    //   <div className="w-full max-w-md bg-white p-6 rounded shadow-md">
+    //     <h1 className="text-2xl font-bold mb-6">Sign In</h1>
+    //     {error && <p className="text-red-500 mb-4">{error}</p>}
+    //     <input
+    //       type="email"
+    //       placeholder="Email"
+    //       value={email}
+    //       onChange={(e) => setEmail(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     <input
+    //       type="password"
+    //       placeholder="Password"
+    //       value={password}
+    //       onChange={(e) => setPassword(e.target.value)}
+    //       className="w-full px-4 py-2 border rounded mb-4"
+    //     />
+    //     {isLoading ? <ClipLoader color="blue" /> : (
+    //     <button
+    //       className="w-full px-4 py-2 bg-blue-500 text-white rounded"
+    //       onClick={handleSignIn}
+    //     >
+    //       Sign In
+    //     </button>
+    //     )}
+    //   </div>
+    // </div>
+
+    <div className={style.background}>
+      <div className="h-screen flex items-center justify-center">
+        <ToastContainer />
+        <div className={style.bg}>
+          <div className="w-full max-w-md  p-6 rounded shadow-md">
+            <h1 className="text-4xl font-bold text-purple">Sign In</h1>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4 "
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4 "
+            />
+            {isLoading ? (
+              <ClipLoader color="blue" />
+            ) : (
+              <button className={style.signbutton} onClick={handleSignIn}>
+                Sign In
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
